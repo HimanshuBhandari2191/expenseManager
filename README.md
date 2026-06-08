@@ -1,5 +1,3 @@
-
-"# MERN-Expense-Tracker" 
 # Expense Manager
 
 Expense Manager is a full-stack web application designed to help users track their daily financial transactions, categorize spending, and gain better insights into their personal finances.
