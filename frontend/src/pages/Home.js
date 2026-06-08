@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { APIUrl, handleError, handleSuccess } from '../utils';
 import { ToastContainer } from 'react-toastify';
@@ -14,136 +14,127 @@ function Home() {
 
     const navigate = useNavigate();
 
-    // ✅ Get logged in user
     useEffect(() => {
-        setLoggedInUser(localStorage.getItem('loggedInUser'));
-    }, []);
+        setLoggedInUser(localStorage.getItem('loggedInUser'))
+    }, [])
 
-    // ✅ Logout
-    const handleLogout = () => {
+    const handleLogout = (e) => {
         localStorage.removeItem('token');
         localStorage.removeItem('loggedInUser');
-        handleSuccess('User Logged out');
+        handleSuccess('User Loggedout');
         setTimeout(() => {
             navigate('/login');
-        }, 1000);
-    };
-
-    // ✅ Calculate income & expense
+        }, 1000)
+    }
     useEffect(() => {
         const amounts = expenses.map(item => item.amount);
-
-        const income = amounts
-            .filter(item => item > 0)
-            .reduce((acc, item) => acc + item, 0);
-
-        const exp = amounts
-            .filter(item => item < 0)
-            .reduce((acc, item) => acc + item, 0) * -1;
-
+        const income = amounts.filter(item => item > 0)
+            .reduce((acc, item) => (acc += item), 0);
+        const exp = amounts.filter(item => item < 0)
+            .reduce((acc, item) => (acc += item), 0) * -1;
         setIncomeAmt(income);
         setExpenseAmt(exp);
-    }, [expenses]);
+    }, [expenses])
 
-    // ✅ Fetch expenses (fixed with useCallback)
-    const fetchExpenses = useCallback(async () => {
+    const deleteExpens = async (id) => {
         try {
-            const response = await fetch(`${APIUrl}/expenses`, {
+            const url = `${APIUrl}/expenses/${id}`;
+            const headers = {
                 headers: {
-                    Authorization: localStorage.getItem('token'),
+                    'Authorization': localStorage.getItem('token')
                 },
-            });
-
+                method: "DELETE"
+            }
+            const response = await fetch(url, headers);
             if (response.status === 403) {
                 localStorage.removeItem('token');
                 navigate('/login');
-                return;
+                return
             }
-
             const result = await response.json();
+            handleSuccess(result?.message)
+            console.log('--result', result.data);
             setExpenses(result.data);
         } catch (err) {
             handleError(err);
         }
-    }, [navigate]);
+    }
 
-    // ✅ Call fetchExpenses properly (FIXED WARNING)
-    useEffect(() => {
-        fetchExpenses();
-    }, [fetchExpenses]);
-
-    // ✅ Delete expense
-    const deleteExpense = async (id) => {
+    const fetchExpenses = async () => {
         try {
-            const response = await fetch(`${APIUrl}/expenses/${id}`, {
-                method: 'DELETE',
+            const url = `${APIUrl}/expenses`;
+            const headers = {
                 headers: {
-                    Authorization: localStorage.getItem('token'),
-                },
-            });
-
+                    'Authorization': localStorage.getItem('token')
+                }
+            }
+            const response = await fetch(url, headers);
             if (response.status === 403) {
                 localStorage.removeItem('token');
                 navigate('/login');
-                return;
+                return
             }
-
             const result = await response.json();
-            handleSuccess(result?.message);
+            console.log('--result', result.data);
             setExpenses(result.data);
         } catch (err) {
             handleError(err);
         }
-    };
+    }
 
-    // ✅ Add transaction
+
+
     const addTransaction = async (data) => {
         try {
-            const response = await fetch(`${APIUrl}/expenses`, {
-                method: 'POST',
+            const url = `${APIUrl}/expenses`;
+            const headers = {
                 headers: {
-                    Authorization: localStorage.getItem('token'),
-                    'Content-Type': 'application/json',
+                    'Authorization': localStorage.getItem('token'),
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data),
-            });
-
+                method: "POST",
+                body: JSON.stringify(data)
+            }
+            const response = await fetch(url, headers);
             if (response.status === 403) {
                 localStorage.removeItem('token');
                 navigate('/login');
-                return;
+                return
             }
-
             const result = await response.json();
-            handleSuccess(result?.message);
+            handleSuccess(result?.message)
+            console.log('--result', result.data);
             setExpenses(result.data);
         } catch (err) {
             handleError(err);
         }
-    };
+    }
+
+    useEffect(() => {
+        fetchExpenses()
+    }, [])
 
     return (
         <div>
-            <div className="user-section">
+            <div className='user-section'>
                 <h1>Welcome {loggedInUser}</h1>
                 <button onClick={handleLogout}>Logout</button>
             </div>
-
             <ExpenseDetails
                 incomeAmt={incomeAmt}
                 expenseAmt={expenseAmt}
             />
 
-            <ExpenseForm addTransaction={addTransaction} />
+            <ExpenseForm
+                addTransaction={addTransaction} />
 
             <ExpenseTable
                 expenses={expenses}
-                deleteExpens={deleteExpense}
+                deleteExpens={deleteExpens}
             />
-
             <ToastContainer />
         </div>
-    );
+    )
 }
 
-export default Home;
+export default Home

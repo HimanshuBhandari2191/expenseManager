@@ -1,5 +1,5 @@
+import React, { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useState, useEffect, useCallback } from 'react';
 
 function RefrshHandler({ setIsAuthenticated }) {
     const location = useLocation();
