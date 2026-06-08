@@ -2,9 +2,9 @@ const { Sequelize } = require('sequelize');
 const path = require('path');
 require('dotenv').config();
 
-// If on Render, save database inside the persistent disk mount path (/data)
-const dbPath = process.env.RENDER_DISK_PATH 
-  ? path.join(process.env.RENDER_DISK_PATH, 'database.sqlite')
+// On Render free tier, write to the global temporary directory /tmp
+const dbPath = process.env.NODE_ENV === 'production'
+  ? '/tmp/database.sqlite'
   : path.join(__dirname, '../database.sqlite');
 
 const sequelize = new Sequelize({
@@ -16,7 +16,7 @@ const sequelize = new Sequelize({
 const connectDB = async () => {
   try {
     await sequelize.authenticate();
-    console.log(`🚀 SQLite Database synchronized at: ${dbPath}`);
+    console.log(`🚀 SQLite Database operating at: ${dbPath}`);
   } catch (error) {
     console.error('❌ Database boot error:', error.message);
     process.exit(1);
