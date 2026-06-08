@@ -1,0 +1,174 @@
+{
+  "info": {
+    "_postman_id": "0eca6bf6-58a9-4671-8fa3-0adfd3585ae3",
+    "name": "ExpenseManager",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "46419459",
+    "_collection_link": "https://go.postman.co/collection/46419459-0eca6bf6-58a9-4671-8fa3-0adfd3585ae3?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/ping",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "ping"
+          ]
+        },
+        "description": "Generated from cURL: curl http://localhost:8080/ping"
+      },
+      "response": []
+    },
+    {
+      "name": "LOGIN",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"test@example.com\",\r\n  \"password\": \"123456\"\r\n    \r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://expensemanager-backend-nu75.onrender.com/auth/login",
+          "protocol": "https",
+          "host": [
+            "expensemanager-backend-nu75",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "SIGN_UP",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Himanshu\",\r\n  \"email\": \"test@example.com\",\r\n  \"password\": \"123456\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/auth/signup",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "auth",
+            "signup"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST http://localhost:8080/auth/signup \\\r\n-H \"Content-Type: application/json\" \\\r\n-d '{\r\n  \"name\": \"Himanshu\",\r\n  \"email\": \"test@example.com\",\r\n  \"password\": \"123456\"\r\n}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Expenses",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJfaWQiOiI2YTI3MTA3NDI1MzViOWIzNjlmYjViNWMiLCJpYXQiOjE3ODA5NDUyNzUsImV4cCI6MTc4MTAzMTY3NX0.UrhhdVGeTkk7Z84VCU-nA2BVLWcG1oQbTmJ36PHLZS4"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/expenses",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "expenses"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET http://localhost:8080/expenses \\\r\n-H \"Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJfaWQiOiI2YTI3MTA3NDI1MzViOWIzNjlmYjViNWMiLCJpYXQiOjE3ODA5NDUyNzUsImV4cCI6MTc4MTAzMTY3NX0.UrhhdVGeTkk7Z84VCU-nA2BVLWcG1oQbTmJ36PHLZS4\""
+      },
+      "response": []
+    },
+    {
+      "name": "Add",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJfaWQiOiI2YTI3MTA3NDI1MzViOWIzNjlmYjViNWMiLCJpYXQiOjE3ODA5NDUyNzUsImV4cCI6MTc4MTAzMTY3NX0.UrhhdVGeTkk7Z84VCU-nA2BVLWcG1oQbTmJ36PHLZS4"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"text\": \"Food\",\r\n  \"amount\": 200\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/expenses",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "expenses"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST http://localhost:8080/expenses \\\r\n-H \"Content-Type: application/json\" \\\r\n-H \"Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJfaWQiOiI2YTI3MTA3NDI1MzViOWIzNjlmYjViNWMiLCJpYXQiOjE3ODA5NDUyNzUsImV4cCI6MTc4MTAzMTY3NX0.UrhhdVGeTkk7Z84VCU-nA2BVLWcG1oQbTmJ36PHLZS4\" \\\r\n-d '{\r\n  \"text\": \"Food\",\r\n  \"amount\": 200\r\n}'"
+      },
+      "response": []
+    }
+  ]
+}
