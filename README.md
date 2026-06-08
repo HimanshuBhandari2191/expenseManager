@@ -1,193 +1,149 @@
-# 🚀 Expense Tracker Backend API
+# 💰 Expense Manager (MERN Stack)
 
-A secure and scalable backend built using **Node.js, Express, and MongoDB** for managing user authentication and expense tracking.
+A full-stack **Expense Management Web App** built using **MongoDB, Express, React, Node.js (MERN)** with authentication, protected routes, and real-time expense tracking.
+
+---
+
+## 🚀 Live Demo
+
+* 🌐 Frontend: (Add your Vercel link)
+* 🔗 Backend API: (Add your Render link)
 
 ---
 
 ## 📌 Features
 
-* 🔐 User Authentication (Signup/Login with JWT)
-* 🔑 Protected Routes using Middleware
-* 💰 Expense Management (Add, Fetch, Delete)
-* 📦 MongoDB Database Integration
-* ⚡ RESTful API Design
-* 🌐 CORS Enabled for Frontend Integration
+### 🔐 Authentication
+
+* User Signup & Login
+* JWT-based authentication
+* Persistent login using `localStorage`
+
+### 💰 Expense Management
+
+* Add expenses
+* View all expenses
+* Delete expenses
+
+### 🔒 Security
+
+* Protected routes using middleware
+* Token-based API access
+
+### 🎯 User Experience
+
+* Toast notifications (success/error)
+* Auto redirect after login
+* Session persistence after refresh
 
 ---
 
 ## 🛠️ Tech Stack
 
-* **Node.js**
-* **Express.js**
-* **MongoDB + Mongoose**
-* **JWT (JSON Web Tokens)**
-* **bcrypt (Password Hashing)**
+### Frontend
+
+* React.js
+* React Router DOM
+* React Toastify
+
+### Backend
+
+* Node.js
+* Express.js
+* MongoDB (Mongoose)
+* JWT Authentication
+* bcrypt
 
 ---
 
 ## 📂 Project Structure
 
-```
-├── Controllers/
-│   ├── AuthController.js
-│   ├── ExpenseController.js
+```id="s7k2dl"
+EXPENSEMANAGER/
 │
-├── Middlewares/
-│   ├── Auth.js
-│   ├── AuthValidation.js
+├── backend/
+│   ├── Controllers/
+│   ├── Models/
+│   ├── Routes/
+│   ├── Middlewares/
+│   └── server.js
 │
-├── Models/
-│   ├── db.js
-│   ├── User.js
-│
-├── Routes/
-│   ├── AuthRouter.js
-│   ├── ExpenseRouter.js
-│   ├── ProductRouter.js
-│
-├── .env
-├── server.js
+├── frontend/
+│   ├── src/
+│   │   ├── pages/
+│   │   │   ├── Home.js
+│   │   │   ├── Login.js
+│   │   │   ├── Signup.js
+│   │   │   ├── ExpenseTable.js
+│   │   │   ├── ExpenseForm.js
+│   │   │   ├── ExpenseDetails.js
+│   │   │
+│   │   ├── RefrshHandler.js
+│   │   ├── App.js
+│   │   ├── index.js
+│   │
+│   └── package.json
 ```
 
 ---
 
 ## ⚙️ Environment Variables
 
-Create a `.env` file in root:
+### Backend (`.env`)
 
-```
+```id="3bcz9z"
 PORT=8080
 MONGO_CONN=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
+```
+
+### Frontend (`.env`)
+
+```id="1t7v5q"
+REACT_APP_API_URL=http://localhost:8080
 ```
 
 ---
 
 ## 🚀 Getting Started
 
-### 1️⃣ Clone the repository
+### 1️⃣ Clone Repository
 
-```
-git clone https://github.com/your-username/expense-tracker-backend.git
-cd expense-tracker-backend
+```id="d8lq7c"
+git clone https://github.com/your-username/expense-manager.git
+cd expense-manager
 ```
 
-### 2️⃣ Install dependencies
+---
 
-```
+### 2️⃣ Setup Backend
+
+```id="6bkl4x"
+cd backend
 npm install
-```
-
-### 3️⃣ Run the server
-
-```
 npm start
 ```
 
-Server runs on:
+Backend runs on:
 
-```
+```id="m9g4hp"
 http://localhost:8080
 ```
 
 ---
 
-## 📡 API Endpoints
+### 3️⃣ Setup Frontend
 
-### 🔐 Auth Routes
-
-#### ➤ Signup
-
-```
-POST /auth/signup
+```id="4r2z2m"
+cd frontend
+npm install
+npm start
 ```
 
-**Body:**
+Frontend runs on:
 
-```
-{
-  "name": "Himanshu",
-  "email": "test@example.com",
-  "password": "123456"
-}
-```
-
----
-
-#### ➤ Login
-
-```
-POST /auth/login
-```
-
-**Response:**
-
-```
-{
-  "jwtToken": "your_token_here"
-}
-```
-
----
-
-### 💰 Expense Routes (Protected)
-
-👉 Requires Header:
-
-```
-Authorization: Bearer <token>
-```
-
----
-
-#### ➤ Get All Expenses
-
-```
-GET /expenses
-```
-
----
-
-#### ➤ Add Expense
-
-```
-POST /expenses
-```
-
-**Body:**
-
-```
-{
-  "text": "Food",
-  "amount": 200
-}
-```
-
----
-
-#### ➤ Delete Expense
-
-```
-DELETE /expenses/:expenseId
-```
-
----
-
-### 📦 Product Route (Protected Demo)
-
-```
-GET /products
-```
-
-Returns dummy data for testing authentication.
-
----
-
-### 🩺 Health Check
-
-```
-GET /ping
-GET /
+```id="3v5d0r"
+http://localhost:3000
 ```
 
 ---
@@ -196,49 +152,130 @@ GET /
 
 1. User signs up
 2. User logs in → receives JWT token
-3. Token is sent in headers:
+3. Token stored in:
 
+```id="9wq0kq"
+localStorage
 ```
+
+4. Token sent in API requests:
+
+```id="0y9p7s"
 Authorization: Bearer <token>
 ```
 
-4. Middleware verifies token and allows access
+---
+
+## 🔄 Refresh Handling (Important)
+
+Your app uses a custom component:
+
+```id="u4o3zp"
+RefrshHandler.js
+```
+
+### ✅ What it does:
+
+* Checks if token exists
+* Keeps user logged in after refresh
+* Redirects to `/home` automatically
 
 ---
 
-## ⚠️ Common Issues
+## 🔒 Protected Routes
 
-### ❌ 401 Unauthorized
+```id="t6o3d1"
+const PrivateRoute = ({ element }) => {
+  return isAuthenticated ? element : <Navigate to="/login" />
+}
+```
 
-* Token missing or invalid
+Only authenticated users can access:
 
-### ❌ 500 Internal Server Error
-
-* Check MongoDB connection
-* Check environment variables
-
-### ❌ CORS Issues
-
-* Ensure frontend URL is allowed in backend
+* `/home`
 
 ---
 
-## 🧪 Testing
+## 📡 API Endpoints
 
-You can test APIs using:
+### 🔐 Auth
 
-* Postman
-* cURL
+* `POST /auth/signup`
+* `POST /auth/login`
+
+### 💰 Expenses (Protected)
+
+* `GET /expenses`
+* `POST /expenses`
+* `DELETE /expenses/:id`
+
+---
+
+## 🔔 Notifications
+
+Using **react-toastify**:
+
+```id="g2n9cf"
+toast.success("Success");
+toast.error("Error");
+```
+
+---
+
+## ⚠️ Common Issues & Fixes
+
+### ❌ CORS Error
+
+👉 Fix in backend:
+
+```id="n5k2xb"
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true
+}));
+```
+
+---
+
+### ❌ Token Not Working
+
+* Check header format:
+
+```id="3o4l2p"
+Authorization: Bearer <token>
+```
+
+---
+
+### ❌ Redirect Issues
+
+👉 Fix in `RefrshHandler`:
+
+```id="5p9z1x"
+navigate('/home', { replace: true });
+```
+
+---
+
+### ❌ Deployment Issues (VERY COMMON)
+
+If frontend is on Vercel and backend on Render:
+
+👉 Use:
+
+```id="v3h2c8"
+REACT_APP_API_URL=https://your-backend-url.onrender.com
+```
 
 ---
 
 ## 📈 Future Improvements
 
-* 🧾 Expense Categories
-* 📊 Analytics Dashboard
-* 🧑‍🤝‍🧑 Multi-user sharing
-* 🌍 Deployment with Docker + CI/CD
-* 🔔 Notifications & Alerts
+* 📊 Charts (Analytics Dashboard)
+* 🏷️ Expense Categories
+* 🔍 Filters & Sorting
+* 🌙 Dark Mode
+* 📱 Mobile Responsive Design
 
 ---
 
@@ -248,6 +285,12 @@ You can test APIs using:
 
 ---
 
+## ⭐ Contributing
+
+Pull requests are welcome. For major changes, please open an issue first.
+
+---
+
 ## 📜 License
 
-This project is licensed under the MIT License.
+MIT License
