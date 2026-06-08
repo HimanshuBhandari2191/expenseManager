@@ -1,96 +1,253 @@
-"# MERN-Expense-Tracker" 
-# 💰 Expense Manager - Full Stack MERN Application
+# 🚀 Expense Tracker Backend API
 
-A powerful, intuitive, and responsive expense tracking application built with the MERN stack. This tool helps users manage their personal finances by tracking income and expenses, visualizing spending patterns, and managing budgets effectively.
+A secure and scalable backend built using **Node.js, Express, and MongoDB** for managing user authentication and expense tracking.
 
-## 🚀 Features
+---
 
-### 🔹 Core Functionality
-- **Dynamic Dashboard**: Real-time overview of total balance, total income, and total expenses.
-- **Transaction History**: List view of all financial activities with filtering and sorting capabilities.
-- **Categorization**: Group spending into categories (e.g., Groceries, Rent, Salary, Freelance).
-- **Data Visualization**: Interactive charts (Line/Pie) to track monthly trends using Chart.js or Recharts.
+## 📌 Features
 
-### 🔹 Security & UX
-- **JWT Authentication**: Secure user registration and login with encrypted passwords (bcrypt).
-- **State Management**: Efficient data flow using React Context API or Redux.
-- **Form Validation**: Robust client-side and server-side validation for financial entries.
-- **Responsive UI**: Optimized for mobile, tablet, and desktop views.
+* 🔐 User Authentication (Signup/Login with JWT)
+* 🔑 Protected Routes using Middleware
+* 💰 Expense Management (Add, Fetch, Delete)
+* 📦 MongoDB Database Integration
+* ⚡ RESTful API Design
+* 🌐 CORS Enabled for Frontend Integration
+
+---
 
 ## 🛠️ Tech Stack
 
-**Frontend:** 
-- React.js, Axios (API Calls), Chart.js (Visualization), CSS3/Sass/Tailwind.
+* **Node.js**
+* **Express.js**
+* **MongoDB + Mongoose**
+* **JWT (JSON Web Tokens)**
+* **bcrypt (Password Hashing)**
 
-**Backend:** 
-- Node.js, Express.js, Mongoose (ODM).
-
-**Database:** 
-- MongoDB (NoSQL).
-
-**Tools:** 
-- JSON Web Tokens (JWT), Bcrypt.js, Dotenv.
-
-## 📋 Prerequisites
-
-Ensure you have the following installed:
-- Node.js (v16.x or higher)
-- MongoDB (Local instance or MongoDB Atlas)
-- npm or yarn
-
-## ⚙️ Installation
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/your-username/expenseManager.git
-```
-
-### 2. Backend Configuration
-- Navigate to the backend directory:
-  ```bash
-  cd backend
-  ```
-- Install the dependencies:
-  ```bash
-  npm install
-  ```
-- Create a `.env` file in the `backend` folder:
-  ```env
-  PORT=5000
-  MONGO_URI=your_mongodb_connection_string
-  JWT_SECRET=your_super_secret_key
-  ```
-- Start the backend server:
-  ```bash
-  npm start
-  ```
-
-### 3. Frontend Configuration (Optional)
-- Navigate to the frontend directory:
-  ```bash
-  cd ../frontend
-  ```
-- Install the dependencies:
-  ```bash
-  npm install
-  ```
-- Start the development server:
-  ```bash
-  npm start
-  ```
+---
 
 ## 📂 Project Structure
 
-```text
-expenseManager/
-├── backend/            # Express.js server and API logic
-│   ├── controllers/    # Request handlers
-│   ├── models/         # MongoDB schemas
-│   ├── routes/         # API endpoints
-│   └── server.js       # Entry point
-├── frontend/           # Client-side application
-└── README.md           # Documentation
+```
+├── Controllers/
+│   ├── AuthController.js
+│   ├── ExpenseController.js
+│
+├── Middlewares/
+│   ├── Auth.js
+│   ├── AuthValidation.js
+│
+├── Models/
+│   ├── db.js
+│   ├── User.js
+│
+├── Routes/
+│   ├── AuthRouter.js
+│   ├── ExpenseRouter.js
+│   ├── ProductRouter.js
+│
+├── .env
+├── server.js
 ```
 
-## 📄 License
+---
+
+## ⚙️ Environment Variables
+
+Create a `.env` file in root:
+
+```
+PORT=8080
+MONGO_CONN=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+```
+
+---
+
+## 🚀 Getting Started
+
+### 1️⃣ Clone the repository
+
+```
+git clone https://github.com/your-username/expense-tracker-backend.git
+cd expense-tracker-backend
+```
+
+### 2️⃣ Install dependencies
+
+```
+npm install
+```
+
+### 3️⃣ Run the server
+
+```
+npm start
+```
+
+Server runs on:
+
+```
+http://localhost:8080
+```
+
+---
+
+## 📡 API Endpoints
+
+### 🔐 Auth Routes
+
+#### ➤ Signup
+
+```
+POST /auth/signup
+```
+
+**Body:**
+
+```
+{
+  "name": "Himanshu",
+  "email": "test@example.com",
+  "password": "123456"
+}
+```
+
+---
+
+#### ➤ Login
+
+```
+POST /auth/login
+```
+
+**Response:**
+
+```
+{
+  "jwtToken": "your_token_here"
+}
+```
+
+---
+
+### 💰 Expense Routes (Protected)
+
+👉 Requires Header:
+
+```
+Authorization: Bearer <token>
+```
+
+---
+
+#### ➤ Get All Expenses
+
+```
+GET /expenses
+```
+
+---
+
+#### ➤ Add Expense
+
+```
+POST /expenses
+```
+
+**Body:**
+
+```
+{
+  "text": "Food",
+  "amount": 200
+}
+```
+
+---
+
+#### ➤ Delete Expense
+
+```
+DELETE /expenses/:expenseId
+```
+
+---
+
+### 📦 Product Route (Protected Demo)
+
+```
+GET /products
+```
+
+Returns dummy data for testing authentication.
+
+---
+
+### 🩺 Health Check
+
+```
+GET /ping
+GET /
+```
+
+---
+
+## 🔐 Authentication Flow
+
+1. User signs up
+2. User logs in → receives JWT token
+3. Token is sent in headers:
+
+```
+Authorization: Bearer <token>
+```
+
+4. Middleware verifies token and allows access
+
+---
+
+## ⚠️ Common Issues
+
+### ❌ 401 Unauthorized
+
+* Token missing or invalid
+
+### ❌ 500 Internal Server Error
+
+* Check MongoDB connection
+* Check environment variables
+
+### ❌ CORS Issues
+
+* Ensure frontend URL is allowed in backend
+
+---
+
+## 🧪 Testing
+
+You can test APIs using:
+
+* Postman
+* cURL
+
+---
+
+## 📈 Future Improvements
+
+* 🧾 Expense Categories
+* 📊 Analytics Dashboard
+* 🧑‍🤝‍🧑 Multi-user sharing
+* 🌍 Deployment with Docker + CI/CD
+* 🔔 Notifications & Alerts
+
+---
+
+## 👨‍💻 Author
+
+**Himanshu Bhandari**
+
+---
+
+## 📜 License
+
 This project is licensed under the MIT License.
