@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 const { connectDB, sequelize } = require('./config/db');
@@ -8,38 +9,39 @@ const budgetRoutes = require('./routes/budgetRoutes');
 
 const app = express();
 
-// Middleware
+// Global Middleware
 app.use(cors());
 app.use(express.json());
 
-// Mounted API Routes
+// API Routes
 app.use('/api/expenses', expenseRoutes);
 app.use('/api/budgets', budgetRoutes);
 
-const PORT = process.env.PORT || 5000;
-// Serve static assets if in production environment
+// Serve Frontend Assets in Production Mode
 if (process.env.NODE_ENV === 'production') {
-  // Set static folder to the 'public' directory we moved our React build to
+  // Direct Express to look for built client files in public/
   app.use(express.static(path.join(__dirname, 'public')));
 
-  // Any non-API route loads the index.html file
+  // Fallback wildcard routing ensures client router works flawlessly
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
   });
+}
 
-// Sync DB Models and Boot Server
+const PORT = process.env.PORT || 5000;
+
+// Database Synchronization and Engine Start
 const startServer = async () => {
   try {
-    // force: false ensures tables are only created if they don't exist yet
+    // Synchronize models with the database
     await sequelize.sync({ force: false });
     await connectDB();
     
-    
     app.listen(PORT, () => {
-      console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+      console.log(`🚀 Server operating in production mode on port ${PORT}`);
     });
   } catch (error) {
-    console.error('Failed to start the backend engine:', error.message);
+    console.error('❌ Failed to launch backend engine:', error.message);
   }
 };
 
