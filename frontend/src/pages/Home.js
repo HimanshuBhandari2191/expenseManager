@@ -60,27 +60,27 @@ function Home() {
         }
     }
 
-    const fetchExpenses = async () => {
-        try {
-            const url = `${APIUrl}/expenses`;
-            const headers = {
-                headers: {
-                    'Authorization': localStorage.getItem('token')
-                }
+    const fetchExpenses = useCallback(async () => {
+    try {
+        const url = `${APIUrl}/expenses`;
+        const headers = {
+            headers: {
+                'Authorization': localStorage.getItem('token')
             }
-            const response = await fetch(url, headers);
-            if (response.status === 403) {
-                localStorage.removeItem('token');
-                navigate('/login');
-                return
-            }
-            const result = await response.json();
-            console.log('--result', result.data);
-            setExpenses(result.data);
-        } catch (err) {
-            handleError(err);
         }
+        const response = await fetch(url, headers);
+        if (response.status === 403) {
+            localStorage.removeItem('token');
+            navigate('/login');
+            return;
+        }
+        const result = await response.json();
+        console.log('--result', result.data);
+        setExpenses(result.data);
+    } catch (err) {
+        handleError(err);
     }
+}, [navigate]);
 
 
 
