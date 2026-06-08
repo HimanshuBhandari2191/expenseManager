@@ -19,5 +19,8 @@
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^8.24.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }
